@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # ── PostgreSQL ─────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: consulting_db
+    environment:
+      POSTGRES_DB: consulting_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Spring Boot Backend ────────────────────────
+  backend:
+    build: ./backend
+    container_name: consulting_backend
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/consulting_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: ukizuru-super-secret-key-change-in-production-32chars
+      CORS_ORIGINS: http://localhost:5173,http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ── React Frontend ─────────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: consulting_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata:

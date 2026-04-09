@@ -1,0 +1,32 @@
+# ── Java / Maven ─────────────────────
+target/
+*.class
+*.jar
+*.war
+*.ear
+.mvn/
+!.mvn/wrapper/maven-wrapper.properties
+
+# ── Node / React ──────────────────────
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+
+# ── IDE ───────────────────────────────
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# ── OS ────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Docker ────────────────────────────
+*.log
+
+# ── Env secrets — NEVER commit these ──
+application-prod.properties
