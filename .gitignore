@@ -10,9 +10,16 @@ target/
 # ── Node / React ──────────────────────
 node_modules/
 dist/
+.vite/
+*.tsbuildinfo
+frontend/.tsbuildinfo-node/
+
+# ── Env secrets — NEVER commit these ──
 .env
 .env.local
 .env.*.local
+application-prod.properties
+application-secret.properties
 
 # ── IDE ───────────────────────────────
 .idea/
@@ -28,5 +35,5 @@ Thumbs.db
 # ── Docker ────────────────────────────
 *.log
 
-# ── Env secrets — NEVER commit these ──
-application-prod.properties
+# ── Agent / tooling ───────────────────
+.claude/

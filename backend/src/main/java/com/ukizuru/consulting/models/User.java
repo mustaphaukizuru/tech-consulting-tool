@@ -2,15 +2,18 @@ package com.ukizuru.consulting.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+@ToString(of = {"id", "email", "role"})
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,22 +25,30 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
+    public enum Role {
+        ADMIN, CLIENT, CONSULTANT;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        public String authority() {
+            return "ROLE_" + name();
+        }
     }
 
-    public enum Role {
-        ADMIN, CLIENT, CONSULTANT
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User other)) return false;
+        return id != null && id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

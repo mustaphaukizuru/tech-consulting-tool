@@ -1,38 +1,36 @@
 package com.ukizuru.consulting.dto;
 
-import com.ukizuru.consulting.models.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import jakarta.validation.constraints.Size;
 
-public class AuthDTO {
+public final class AuthDTO {
 
-    @Data
-    public static class RegisterRequest {
-        @NotBlank private String fullName;
-        @Email @NotBlank private String email;
-        @NotBlank private String password;
-        private User.Role role = User.Role.CLIENT;
-    }
+    private AuthDTO() {}
 
-    @Data
-    public static class LoginRequest {
-        @Email @NotBlank private String email;
-        @NotBlank private String password;
-    }
+    public record RegisterRequest(
+            @NotBlank @Size(min = 2, max = 120) String fullName,
+            @Email @NotBlank @Size(max = 255) String email,
+            @NotBlank @Size(min = 8, max = 100) String password
+    ) {}
 
-    @Data
-    public static class AuthResponse {
-        private String token;
-        private String email;
-        private String fullName;
-        private String role;
+    public record LoginRequest(
+            @Email @NotBlank String email,
+            @NotBlank String password
+    ) {}
 
-        public AuthResponse(String token, String email, String fullName, String role) {
-            this.token = token;
-            this.email = email;
-            this.fullName = fullName;
-            this.role = role;
-        }
-    }
+    public record RefreshRequest(@NotBlank String refreshToken) {}
+
+    public record AuthResponse(
+            String accessToken,
+            String refreshToken,
+            UserSummary user
+    ) {}
+
+    public record UserSummary(
+            Long id,
+            String email,
+            String fullName,
+            String role
+    ) {}
 }

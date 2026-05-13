@@ -2,78 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-slate-950 text-slate-100 font-sans antialiased;
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-slate-900; }
+  ::-webkit-scrollbar-thumb { @apply bg-indigo-500 rounded-sm; }
 }
 
-body {
-  background-color: #0f172a;
-  color: #f1f5f9;
-  font-family: 'Inter', sans-serif;
-}
+@layer components {
+  .card {
+    @apply bg-slate-900 border border-slate-800 rounded-xl p-6 transition-colors hover:border-indigo-500/40;
+  }
+  .input {
+    @apply w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-slate-100
+           placeholder:text-slate-500 focus:outline-none focus:border-indigo-500
+           focus:ring-1 focus:ring-indigo-500 transition-colors;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium
+           transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary { @apply btn bg-indigo-500 hover:bg-indigo-600 text-white focus:ring-indigo-500; }
+  .btn-secondary { @apply btn bg-transparent border border-slate-700 hover:bg-slate-800 text-slate-200 focus:ring-slate-500; }
+  .btn-danger { @apply btn bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 focus:ring-rose-500; }
+  .btn-ghost { @apply btn bg-transparent hover:bg-slate-800 text-slate-300; }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #1e293b; }
-::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 3px; }
+  .badge { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium; }
+  .badge-pending   { @apply bg-amber-500/10 text-amber-400; }
+  .badge-progress  { @apply bg-indigo-500/10 text-indigo-300; }
+  .badge-completed { @apply bg-emerald-500/10 text-emerald-400; }
+  .badge-cancelled { @apply bg-rose-500/10 text-rose-400; }
+  .badge-todo      { @apply bg-slate-500/10 text-slate-300; }
+  .badge-done      { @apply bg-emerald-500/10 text-emerald-400; }
+  .badge-blocked   { @apply bg-rose-500/10 text-rose-400; }
 
-.card {
-  background: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 12px;
-  padding: 1.5rem;
-  transition: border-color 0.2s;
+  .form-label { @apply block text-xs font-medium text-slate-400 mb-1; }
+  .form-error { @apply mt-1 text-xs text-rose-400; }
 }
-.card:hover { border-color: #6366f1; }
-
-.btn-primary {
-  background: #6366f1;
-  color: white;
-  padding: 0.6rem 1.4rem;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s, transform 0.1s;
-}
-.btn-primary:hover { background: #4f46e5; transform: translateY(-1px); }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-.btn-secondary {
-  background: transparent;
-  color: #6366f1;
-  padding: 0.6rem 1.4rem;
-  border-radius: 8px;
-  border: 1px solid #6366f1;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-.btn-secondary:hover { background: #6366f120; }
-
-.input {
-  width: 100%;
-  background: #0f172a;
-  border: 1px solid #334155;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  color: #f1f5f9;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.input:focus { border-color: #6366f1; }
-.input::placeholder { color: #64748b; }
-
-.badge {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 99px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-.badge-pending    { background: #fbbf2420; color: #fbbf24; }
-.badge-progress   { background: #6366f120; color: #818cf8; }
-.badge-completed  { background: #22c55e20; color: #22c55e; }
-.badge-cancelled  { background: #ef444420; color: #ef4444; }
